@@ -1,0 +1,176 @@
+body {
+	background:#fff;
+	border:0;
+	font:14px Arial, Helvetica, sans-serif;
+	color:#3c4046;
+	line-height:20px;
+	min-width:1000px;
+}
+
+#header {
+	background:url(../images/bg_top.jpg) top center no-repeat #1e2023;
+	width:100%;
+	overflow:hidden;
+	height:126px;
+}
+
+.wrapper {
+	margin:0 auto;
+	width:1000px;
+	overflow:hidden;
+}
+
+#logo {
+	background-image: url(../images/logo.png);
+	background-repeat: no-repeat;
+	width:220px;
+	height:95px;
+	text-indent:-5000px;
+	float: left;
+	margin-top: 17px;
+	margin-left: 30px;
+}
+
+#menu {
+	float:right;
+	padding-top:45px;
+	padding-left:5px;
+	width:600px;
+}
+
+#menu li {
+	float:left;
+	padding-left:1px;
+}
+
+#menu li a {
+	display:block;
+	font-size:16px;
+	text-transform:uppercase;
+	color:#fff;
+	text-decoration:none;
+	line-height:30px;
+	position:relative;
+	padding:0 20px;
+	margin:1px 0;
+}
+
+#menu li a:hover, #menu #menu_active a {
+	border-bottom:1px solid #373b40;
+	border-top:1px solid #000;
+	background:#191a1e;
+	border-radius:3px;
+	-moz-border-radius:3px;
+	-webkit-border-radius:3px;
+	margin:0;
+}
+
+h4{
+	font-size: 15px;
+}
+
+#formulario{
+	width: 100%;
+	height: 150px;
+	background-color: #FFFFFF;
+	margin: 160px auto;
+	padding: 20px;
+	font-family: Arial,Helvetica,sans-serif;
+}
+
+.cajasform{
+	width: 200px;
+	height: 50px;
+	float: left;
+}
+
+.numeros{
+	color: #75a8da;
+}
+
+.separador{
+	height: 50px;
+	float: left;
+    margin: 36px 0 1.5% 2%;
+    min-height: 111px;
+    padding: 0 0 0 2.4%;
+    width: 2px;
+	background-image: url(../images/vertical-separator.png);
+	background-repeat: no-repeat;
+}
+
+.inputdestinos{
+	border: 1px solid #c9cccc;
+	color: #000000;
+	font: 12px;
+	height: 25px;
+	width: 195px;
+}
+
+.radios{
+	cursor: pointer;
+    height: 20px;
+    padding: 0;
+    width: 50px;
+}
+
+.selectcat {
+	border: 1px solid #c9cccc;
+	color: #000000;
+	font: 12px;
+	height: 25px;
+	margin-top: 6px;
+	width: 95px;
+}
+
+.datepicker{
+	border: 1px solid #c9cccc;
+	color: #000000;
+	font: 12px;
+	height: 25px;
+	width: 195px;
+}
+
+label{
+	display: block;
+	float: left;
+	width: 105px;
+	margin-bottom: 3px;
+	margin-top: 3px;
+}
+
+.labelnum{
+	display: block;
+	float: left;
+	width: 105px;
+	margin-bottom: 3px;
+	margin-top: 3px;
+}
+
+.selectnum{
+	border: 1px solid #c9cccc;
+	color: #000000;
+	font: 12px;
+	height: 25px;
+	width: 60px;
+}
+
+.cajanumeros{
+	margin: 0 5% 0 0;
+    width: 28%;
+    display: block;
+    float: left;
+}
+
+#boton{
+	cursor: pointer;
+	background-image: url(../images/search-button.png); 
+	color: #FFFFFF;
+	font: 18px Arial,Helvetica,sans-serif;
+	height: 34px;
+	position: absolute;
+	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
+	text-transform: uppercase;
+	width: 180px;
+	margin: 95px 0 0 -180px;
+}
