@@ -174,3 +174,72 @@ label{
 	width: 180px;
 	margin: 95px 0 0 -180px;
 }
+
+#formlista{
+	width: 100%;
+	height: 350px;
+	background-color: #FFFFFF;
+	margin: 160px auto;
+	padding: 20px;
+	font-family: Arial,Helvetica,sans-serif;
+}
+
+#formlista ul{
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+}
+
+#formlista ul li { display: inline; }
+
+#botoncont{
+	cursor: pointer;
+	background-image: url(../images/search-button.png); 
+	color: #FFFFFF;
+	font: 18px Arial,Helvetica,sans-serif;
+	height: 34px;
+	position: absolute;
+	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
+	text-transform: uppercase;
+	width: 180px;
+}
+
+.spanlista{
+	font-size: 20px;
+}
+
+.plista{
+	font-size: 20px;
+	font-weight: bold;
+}
+
+#formdatos{
+	width: 50%;
+	padding: 20px;
+	margin: 0 auto;
+	font-family: Arial,Helvetica,sans-serif;
+}
+
+#formdatos input{
+	border: 1px solid #c9cccc;
+	font: 12px;
+	height: 25px;
+	width: 195px;
+}
+
+#formdatos label{
+	width: 160px;
+}
+
+#botonreserva{
+	cursor: pointer;
+	background-image: url(../images/search-button.png); 
+	color: #FFFFFF;
+	font: 18px Arial,Helvetica,sans-serif;
+	height: 34px;
+	position: absolute;
+	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
+	text-transform: uppercase;
+	width: 180px;
+	margin: 50px 0 0 -194px;
+}

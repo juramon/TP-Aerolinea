@@ -4,6 +4,7 @@
 <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 <link rel="stylesheet" href="css/reset.css" type="text/css" media="all">
 <link rel="stylesheet" href="css/style.css" type="text/css" media="all">
+<link rel="stylesheet" href="css/jquery-ui.css" type="text/css" media="all">
 <link rel="shortcut icon" href="images/favicon.ico">
 <script type="text/javascript" src="js/cufon-yui.js"></script>
 <script type="text/javascript" src="js/cufon-replace.js"></script>
@@ -12,7 +13,6 @@
 <script type="text/javascript" src="js/jquery-1.11.1.min.js"></script>
 <script type="text/javascript" src="js/jqueryui.js"></script>
 <script type="text/javascript" src="js/validaciones.js"></script>
-<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.1/themes/base/jquery-ui.css" />
 
 <!-- Supersized slider background -->
 <link rel="stylesheet" href="css/supersized.css" type="text/css" media="screen" />
@@ -41,8 +41,13 @@
 <!-- END Supersized -->
 
 <script>
+$.datepicker.regional['es'] = {
+monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+};
+$.datepicker.setDefaults($.datepicker.regional['es']);
 $(function() {
-$( ".datepicker" ).datepicker();
+$( ".datepicker" ).datepicker({ dateFormat: "DD, d MM, yy" });
 });
 </script>
 
@@ -158,7 +163,7 @@ source: availableTags
 <body>
 	<div id="header">
 		<div class="wrapper">
-			<a href="index.html"><div id="logo"></div></a>
+			<a href="index.php"><div id="logo"></div></a>
 			<div class="navbar">
 				<ul id="menu">
 					<li id="menu_active"><a href="index.php">Home</a></li>
@@ -177,16 +182,17 @@ source: availableTags
 				<div class="cajasform">
 					<h4><span class="numeros">01</span> Vuelo</h4>
 					<br/>
-					<input type="radio" value="vuelo" name="ida" id="ida" class="radios"/>
+					<input type="radio" value="soloida" name="idaovuelta" id="idaovuelta" class="radios" checked/>
 					<label>Ida</label>
-					<input type="radio" value="vuelo" name="ida" id="idavuelta" class="radios"/>
+					<input type="radio" value="idavuelta" name="idaovuelta" id="idaovuelta" class="radios"/>
 					<br/>
 					<label>Ida+Vuelta</label>
 					<br/>
 					<label>Categoria:</label>
-					<select class="selectcat" name="">
-						<option value="pri">Primera</option>
+					<select class="selectcat" name="categoria" id="categoria">
+						<option value="0"></option>
 						<option value="econ">Economy</option>
+						<option value="pri">Primera</option>
 					</select>
 				</div>
 				<div class="separador">
@@ -206,9 +212,9 @@ source: availableTags
 					<h4><span class="numeros">03</span> Fecha</h4>
 					<br/>
 					<label>Desde</label>
-					<input type="text" class="datepicker" />
+					<input type="text" class="datepicker" name="fechaida" class="fechaida" id="fechaida" />
 					<label>Hasta</label>
-					<input type="text" class="datepicker"/>
+					<input type="text" class="datepicker" name="fechavuelta" class="fechavuelta" id="fechavuelta"/>
 				</div>
 				<div class="separador">
 				</div>
@@ -221,13 +227,6 @@ source: availableTags
 							<option value="0">0</option>
 							<option value="1">1</option>
 							<option value="2">2</option>
-							<option value="3">3</option>
-							<option value="4">4</option>
-							<option value="5">5</option>
-							<option value="6">6</option>
-							<option value="7">7</option>
-							<option value="8">8</option>
-							<option value="9">9</option>
 						</select>
 					</div>
 					<div class="cajanumeros">
@@ -236,13 +235,6 @@ source: availableTags
 							<option value="0">0</option>
 							<option value="1">1</option>
 							<option value="2">2</option>
-							<option value="3">3</option>
-							<option value="4">4</option>
-							<option value="5">5</option>
-							<option value="6">6</option>
-							<option value="7">7</option>
-							<option value="8">8</option>
-							<option value="9">9</option>
 						</select>
 					</div>
 					<div class="cajanumeros">
@@ -251,13 +243,6 @@ source: availableTags
 							<option value="0">0</option>
 							<option value="1">1</option>
 							<option value="2">2</option>
-							<option value="3">3</option>
-							<option value="4">4</option>
-							<option value="5">5</option>
-							<option value="6">6</option>
-							<option value="7">7</option>
-							<option value="8">8</option>
-							<option value="9">9</option>
 						</select>
 					</div>
 				</div>
