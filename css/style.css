@@ -216,8 +216,8 @@ label{
 #formdatos{
 	width: 50%;
 	padding: 20px;
-	margin: 0 auto;
 	font-family: Arial,Helvetica,sans-serif;
+	float: left;
 }
 
 #formdatos input{
@@ -242,4 +242,17 @@ label{
 	text-transform: uppercase;
 	width: 180px;
 	margin: 50px 0 0 -194px;
+}
+
+#separador{
+	width: 70%;
+	height: 1px;
+	background-color: gray;
+	float: left;
+}
+
+#login{
+	width: 560px;
+	height: 15px;
+	float: right;
 }

@@ -1,3 +1,15 @@
+<?php
+	$admin = "admin";
+	$clave = "admin";
+	if(isset($_POST['usuario']) && isset($_POST['pass'])){
+		if(($_POST['usuario'] == $admin) && ($_POST['pass'] == $clave)){
+		session_start();
+		$_SESSION['log'] = true;
+		header('location:pag/admin.php');
+		}
+	}
+?>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -43,7 +55,7 @@
 <script>
 $.datepicker.regional['es'] = {
 monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sabado'],
 };
 $.datepicker.setDefaults($.datepicker.regional['es']);
 $(function() {
@@ -54,11 +66,11 @@ $( ".datepicker" ).datepicker({ dateFormat: "DD, d MM, yy" });
 <script>
 $(function() {
 var availableTags = [
-"Alto Río Senguer",
+"Alto Rio Senguer",
 "Azul",
-"Bahía Blanca",
+"Bahia Blanca",
 "Bariloche",
-"Bolívar",
+"Bolivar",
 "Buenos Aires",
 "Campo de Mayo",
 "Caviahue",
@@ -68,15 +80,15 @@ var availableTags = [
 "Chilecito",
 "Clorinda",
 "Comodoro Rivadavia",
-"Córdoba",
+"Cordoba",
 "Concordia",
-"Coronel Suárez",
+"Coronel Suarez",
 "Corrientes",
-"Curuzú Cuatiá",
-"Cutral-Co",
+"Curuzu Cuatia",
+"Cutral Co",
 "Dolores",
 "Don Torcuato",
-"El Bolsón",
+"El Bolson",
 "El Calafate",
 "El Palomar",
 "Esquel",
@@ -86,43 +98,43 @@ var availableTags = [
 "General Pico",
 "General Roca",
 "Ingeniero Jacobacci",
-"Isla Martín García",
-"José C. Paz",
-"Junín",
+"Isla Martin Garcia",
+"Jose C Paz",
+"Junin",
 "Laboulaye",
 "La Cumbre",
 "La Plata",
 "La Rioja",
 "Las Heras",
 "Las Lomitas",
-"Malargüe",
+"Malargue",
 "Mar del Plata",
 "Mendoza",
 "Merlo",
 "Miramar",
 "Monte Caseros",
-"Morón",
+"Moron",
 "Necochea",
-"Neuquén",
-"Olavarría",
-"Paraná",
+"Neuquen",
+"Olavarria",
+"Parana",
 "Paso de los Libres",
-"Pehuajó",
+"Pehuajo",
 "Perico",
 "Perito Moreno",
 "Posadas",
 "Puerto Deseado",
-"Puerto Iguazú",
+"Puerto Iguazu",
 "Puerto Madryn",
-"Puerto San Julián",
+"Puerto San Julian",
 "Puerto Santa Cruz",
-"Presidencia Roque Saenz Peña",
+"Presidencia Roque Saenz Pena",
 "Reconquista",
 "Resistencia",
-"Río Cuarto",
-"Río Gallegos",
-"Río Grande",
-"Río Turbio",
+"Rio Cuarto",
+"RIo Gallegos",
+"Rio Grande",
+"Rio Turbio",
 "Rosario",
 "Salta",
 "San Fernando",
@@ -130,18 +142,18 @@ var availableTags = [
 "San Juan",
 "San Luis",
 "San Rafael",
-"San Ramón de la Nueva Orán",
+"San Ramon de la Nueva Oran",
 "San Justo",
-"San Miguel de Tucumán",
+"San Miguel de Tucuman",
 "Santa Rosa",
 "Santa Teresita",
 "Santiago del Estero",
-"San Martín de los Andes",
+"San Martin de los Andes",
 "Sauce Viejo",
 "Sunchales",
 "Tandil",
 "Tartagal",
-"Termas de Río Hondo",
+"Termas de Rio Hondo",
 "Trelew",
 "Tres Arroyos",
 "Ushuaia",
@@ -163,6 +175,15 @@ source: availableTags
 <body>
 	<div id="header">
 		<div class="wrapper">
+			<div id="login">
+				<form action="index.php" method="post">
+				<label>Usuario:</label>
+				<input class="loginp" type="text" name="usuario"/>
+				<label>Contrase&ntilde;a:</label>
+				<input class="loginp" type="text" name="pass"/>
+				<input type="button" value="Ingresar" id="botonlogin" />
+		        </form>
+	    	</div>
 			<a href="index.php"><div id="logo"></div></a>
 			<div class="navbar">
 				<ul id="menu">

@@ -71,27 +71,26 @@
 					$fechaida = $_POST['fechaida'];
 					$fechavuelta = $_POST['fechavuelta'];
 					$categoria = $_POST['categoria'];
-					$fecha = substr($fechaida, 0, 2);
-					$query="SELECT a.ciudad as origen, aer.ciudad as destino, v.precio_econ, v.precio_prim, av.modelo
-							FROM vuelos as v join aeropuertos as a on v.c_oaci_origen=a.c_oaci join aeropuertos aer on v.c_oaci_destino=aer.c_oaci join aviones as av on av.c_avion=v.id_avion join dias_vuelo as dv on v.id=dv.id_vuelo
-							WHERE a.ciudad='$origen'and aer.ciudad='$destino'";
+					$diafechaida = substr($fechaida, 0, 2);
+					$query="SELECT a.ciudad as origen, aer.ciudad as destino, v.precio_economy, v.precio_primera, av.modelo, vd.dia as diadevuelo
+							FROM vuelos as v join aeropuertos as a on v.id_origen=a.id join aviones as av on v.id_avion=av.id join vuelo_dia as vd on v.id=vd.id_vuelo join aeropuertos as aer on v.id_destino=aer.id
+							WHERE a.ciudad='$origen' and aer.ciudad='$destino' and vd.dia like '$diafechaida'";
 					$result=mysqli_query($link, $query);
-
-					if (mysqli_fetch_object($result)==null){
-						echo'<p>No hay vuelos disponibles</p>';
-					} else{
+					
+					//if (mysqli_fetch_object($result)==null){
+					//	echo'<p>No hay vuelos disponibles</p>';
+					//} else{
 						while($row = mysqli_fetch_object($result))
 						{
-							echo'<p>' . $fecha . '</p>';
 							echo'<input type="radio" value="seleccion" name="selectvuelo" id="selectvuelo" class="selectvuelo" value="1"/>';
 							echo'<ul>'; 
 							if($idaovuelta=="soloida"){
 							echo'<li>Desde: <span class="spanlista">' . $row->origen . ' </span></li>';
 							echo'<li>Hacia: <span class="spanlista">' . $row->destino . ' </span></li>';
 								if($categoria=="pri"){
-									echo'<li>Precio: <span class="spanlista">$' . $row->precio_prim . ' </span></li>';
+									echo'<li>Precio: <span class="spanlista">$' . $row->precio_primera . ' </span></li>';
 								} else {
-									echo'<li>Precio: <span class="spanlista">$' . $row->precio_econ . ' </span></li>';
+									echo'<li>Precio: <span class="spanlista">$' . $row->precio_economy . ' </span></li>';
 								}
 							echo'<li>Avion: <span class="spanlista">' . $row->modelo . ' </span></li>';
 							echo'<li>Fecha: <span class="spanlista">' . $fechaida . '</span></li>';
@@ -108,17 +107,18 @@
 							echo'<li>Hacia: <span class="spanlista">' . $row->origen . '</span></li>';
 							echo'<li>Fecha: <span class="spanlista">' . $fechavuelta . '</span></li>';
 								if($categoria=="pri"){
-									echo'<li>Precio final: <span class="spanlista">$' . $row->precio_prim . '</span></li>';
+									echo'<li>Precio final: <span class="spanlista">$' . $row->precio_primera . '</span></li>';
 								} else {
-									echo'<li>Precio final: <span class="spanlista">$' . $row->precio_econ . '</span></li>';
+									echo'<li>Precio final: <span class="spanlista">$' . $row->precio_economy . '</span></li>';
 								}
 							echo'<br/><br/>';
 							echo'</ul>'; 
 							}
+						echo'<br/>';
+						echo'<input type="submit" value="Continuar" id="botoncont" />';
 						}
-					echo'<br/>';
-					echo'<input type="submit" value="Continuar" id="botoncont" />';
-				}
+					
+				//}
 				?>
 			</form>
 		</div>
