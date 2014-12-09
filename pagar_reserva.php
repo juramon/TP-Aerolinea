@@ -1,3 +1,6 @@
+<?php
+	require_once("/conexion.php");
+?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -12,7 +15,7 @@
 <script type="text/javascript" src="js/jquery-1.11.1.min.js"></script>
 <script type="text/javascript" src="js/jqueryui.js"></script>
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.1/themes/base/jquery-ui.css" />
-
+<script type="text/javascript" src="js/validaciones.js"></script>
 <!-- Supersized slider background -->
 <link rel="stylesheet" href="css/supersized.css" type="text/css" media="screen" />
 <script type="text/javascript" src="js/supersized.3.2.7.min.js"></script>
@@ -55,8 +58,8 @@ $( ".datepicker" ).datepicker();
 				<ul id="menu">
 					<li><a href="index.php">Home</a></li>
 					<li><a href="destinos.html">Destinos</a></li>
-					<li><a href="pagos.php">Pagos</a></li>
-					<li id="menu_active"><a href="checkinn.php">Check inn</a></li>
+					<li id="menu_active"><a href="pagos.php">Pagos</a></li>
+					<li><a href="checkinn.php">Check inn</a></li>
 					<li><a href="contacto.html">Contacto</a></li>
 				</ul>
 			</div>
@@ -64,8 +67,54 @@ $( ".datepicker" ).datepicker();
 	</div>
 
 	<div class="wrapper">
-		<div id="formulario">
-			
+		<div id="formulariopagos">
+			<div id="formpagarreserva">
+				<form action="pago_fin.php" method="post" onSubmit="return validar_pagarreserva()">
+					<?php
+					$codigo = $_POST['codigo'];
+					$query="SELECT *
+							FROM reservas
+							WHERE id='$codigo'";
+					$result=mysqli_query($link, $query);
+					$numero_filas = mysqli_num_rows($result);
+					if ($numero_filas==null){
+					echo'<p>La reserva no existe</p>';
+					echo'<a href="pagos.php"><p>Volver</p></a>';
+					echo exit;
+					} else{
+					$row = mysqli_fetch_object($result);
+							echo '<input type="hidden" name="id" value="' . $row->id . '" />';
+							echo '<input type="hidden" name="id_pasajero" value="' . $row->id_pasajero . '" />';
+							echo '<input type="hidden" name="id_vuelo" value="' . $row->id_vuelo . '" />';
+							echo '<input type="hidden" name="id_categorias" value="' . $row->id_categorias . '" />';
+							echo '<input type="hidden" name="fecha" value="' . $row->fecha . '" />';
+					}
+					?>
+					<p>Pago pendiente</p>
+					<br/>
+					<p>Realice su pago</p>
+					<br/>
+					<label>Nombre y Apellido</label>
+					<input type="text" id="nombre" name="nombre" />
+					<br/><br/>
+					<label>Tipo de Tarjeta</label>
+					<select id="tipotarjeta" name="tipotarjeta">
+						<option value="">Seleccione...</option>
+						<option value="Visa">Visa</option>
+						<option value="Amex">Amex</option>
+						<option value="MasterCard">Mastercard</option>
+					</select>
+					<br/><br/>
+					<label>Número de tarjeta</label>
+					<input type="text" id="numtarjeta" name="numtarjeta" />
+					<br/><br/>
+					<label>Código de seguridad</label>
+					<input type="text" id="codseguridad" name="codseguridad" />
+					<br/><br/>
+					<input type="submit" value="Pagar" id="botonverif" />
+
+				</form>
+			</div>
 		</div>
 	</div>
 </body>

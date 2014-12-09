@@ -1,3 +1,6 @@
+<?php
+	require_once("/conexion.php");
+?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -40,13 +43,8 @@
 </script>
 <!-- END Supersized -->
 <script>
-$.datepicker.regional['es'] = {
-monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
-};
-$.datepicker.setDefaults($.datepicker.regional['es']);
 $(function() {
-$( ".datepicker" ).datepicker({ dateFormat: "DD, d MM, yy" });
+$( ".datepicker" ).datepicker();
 });
 </script>
 <title>Aerolinea Universitaria</title>	
@@ -70,21 +68,80 @@ $( ".datepicker" ).datepicker({ dateFormat: "DD, d MM, yy" });
 	<div class="wrapper">
 		<div id="formlista">
 			<div id="formdatos">
-				<form name="datosusuario" action="" method="post" id="datosusuario" onSubmit="return validar_datos()">
-					<label>Nombre y apellido:</label>
-					<input type="text" name="nombre" id="nombre"/>
-					<br/><br/>
-					<label>Numero de documento:</label>
-					<input type="text" name="dni" id="dni"/>
-					<br/><br/>
-					<label>Fecha de Nacimiento:</label>
-					<input type="text" class="datepicker" name="fechanac" class="fechanac" id="fechanac" />
-					<br/><br/>
-					<label>Correo electronico:</label>
-					<input type="text" name="correo" id="email"/>
-					<input type="submit" value="Reservar" id="botonreserva" />
-				</div>
-			</form>
+				<form name="datosusuario" action="reserva_fin.php" method="post" id="datosusuario" onSubmit="return validar_datos()">
+					<?php
+						$id_vuelo = $_POST['id_vuelo'];
+						$id_categorias = $_POST['id_categorias'];
+						$idaovuelta = $_POST['idaovuelta'];
+						$fechaida = $_POST['fechaida'];
+						$fechavuelta = $_POST['fechavuelta'];
+						$id_avion = $_POST['id_avion'];
+						
+						//cantidad de reservas para el vuelo seleccionado
+						$query="SELECT COUNT(1) AS cant 
+						FROM reservas
+						WHERE id_vuelo = '$id_vuelo' AND id_categorias = '$id_categorias' AND en_espera = 'N'/*AND fecha_vuelo = '$fechaida'*/";
+						$result=mysqli_query($link, $query);
+						$row = mysqli_fetch_object($result);
+						$cant = $row->cant;
+
+						//traer asientos disponibles para la categoria segun el avion
+						$query="SELECT asientos_primera, asientos_economy
+								FROM aviones
+								WHERE id='$id_avion'";
+						$result=mysqli_query($link, $query);
+						$row = mysqli_fetch_object($result);
+						$asientos_economy = $row->asientos_economy;
+						$asientos_primera = $row->asientos_primera;
+
+						//ver si se puede acomodar de otra forma, es un asco esto
+						if($id_categorias=='1' && $cant<$asientos_economy){
+							echo '<p>Hay espacio en su vuelo, ingrese sus datos</p>';
+							echo '<label>Nombre y apellido:</label>';
+							echo '<input type="text" name="nombre" id="nombre"/>';
+							echo '<br/><br/>';
+							echo '<label>Numero de documento:</label>';
+							echo '<input type="text" name="dni" id="dni"/>';
+							echo '<br/><br/>';
+							echo '<label>Fecha de Nacimiento:</label>';
+							echo '<input type="text" class="datepicker" name="fecha" class="fecha" id="fecha" />';
+							echo '<br/><br/>';
+							echo '<label>Correo electronico:</label>';
+							echo '<input type="text" name="correo" id="correo"/>';
+							echo '<input type="hidden" id="id_vuelo" name="id_vuelo" value="<?= $id_vuelo ?>" />';
+							echo '<input type="hidden" id="id_categorias" name="id_categorias" value="<?= $id_categorias ?>" />';
+							echo '<input type="hidden" id="idaovuelta" name="idaovuelta" value="<?= $idaovuelta ?>" />';
+							echo '<input type="hidden" id="fechaida" name="fechaida" value="<?= $fechaida ?>" />';
+							echo '<input type="hidden" id="fechavuelta" name="fechavuelta" value="<?= $fechavuelta ?>" />';
+							echo '<input type="submit" value="Reservar" id="botonreserva" />';
+							return true;
+							}else if($id_categorias=='2' && $cant<$asientos_primera){
+							echo '<p>Hay espacio en su vuelo, ingrese sus datos</p>';
+							echo '<label>Nombre y apellido:</label>';
+							echo '<input type="text" name="nombre" id="nombre"/>';
+							echo '<br/><br/>';
+							echo '<label>Numero de documento:</label>';
+							echo '<input type="text" name="dni" id="dni"/>';
+							echo '<br/><br/>';
+							echo '<label>Fecha de Nacimiento:</label>';
+							echo '<input type="text" class="datepicker" name="fecha" class="fecha" id="fecha" />';
+							echo '<br/><br/>';
+							echo '<label>Correo electronico:</label>';
+							echo '<input type="text" name="correo" id="correo"/>';
+							echo '<input type="hidden" id="id_vuelo" name="id_vuelo" value="<?= $id_vuelo ?>" />';
+							echo '<input type="hidden" id="id_categorias" name="id_categorias" value="<?= $id_categorias ?>" />';
+							echo '<input type="hidden" id="idaovuelta" name="idaovuelta" value="<?= $idaovuelta ?>" />';
+							echo '<input type="hidden" id="fechaida" name="fechaida" value="<?= $fechaida ?>" />';
+							echo '<input type="hidden" id="fechavuelta" name="fechavuelta" value="<?= $fechavuelta ?>" />';
+							echo '<input type="submit" value="Reservar" id="botonreserva" />';
+							return true;
+							}else{
+								echo '<p>No hay lugar en el vuelo seleccionado</p>';
+								return false; //aca deberia meterlo en espera si es que hay menos de 10 en espera
+							}
+					?>
+				</form>
+			</div>
 		</div>
 	</div>
 </body>

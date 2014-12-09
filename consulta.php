@@ -1,4 +1,4 @@
-<?PHP
+<?php
 	require_once("/conexion.php");
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -51,9 +51,9 @@
 			<a href="index.php"><div id="logo"></div></a>
 			<div class="navbar">
 				<ul id="menu">
-					<li id="menu_active"><a href="index.php">Home</a></li>
-					<li><a href="flota.html">Nuestra Flota</a></li>
-					<li><a href="destinos.html">Destinos</a></li>
+					<li><a href="index.php">Home</a></li>
+					<li id="menu_active"><a href="destinos.html">Destinos</a></li>
+					<li><a href="pagos.php">Pagos</a></li>
 					<li><a href="checkinn.php">Check inn</a></li>
 					<li><a href="contacto.html">Contacto</a></li>
 				</ul>
@@ -72,14 +72,17 @@
 					$fechavuelta = $_POST['fechavuelta'];
 					$categoria = $_POST['categoria'];
 					$diafechaida = substr($fechaida, 0, 2);
-					$query="SELECT a.ciudad as origen, aer.ciudad as destino, v.precio_economy, v.precio_primera, av.modelo, vd.dia as diadevuelo
+					$query="SELECT a.ciudad as origen, aer.ciudad as destino, v.precio_economy, v.precio_primera, av.modelo, vd.dia as diadevuelo, v.id as id_vuelo, av.id as id_avion
 							FROM vuelos as v join aeropuertos as a on v.id_origen=a.id join aviones as av on v.id_avion=av.id join vuelo_dia as vd on v.id=vd.id_vuelo join aeropuertos as aer on v.id_destino=aer.id
-							WHERE a.ciudad='$origen' and aer.ciudad='$destino' and vd.dia like '$diafechaida'";
+							WHERE a.id='$origen' and aer.id='$destino' and vd.dia like '$diafechaida'";
+
 					$result=mysqli_query($link, $query);
-					
-					//if (mysqli_fetch_object($result)==null){
-					//	echo'<p>No hay vuelos disponibles</p>';
-					//} else{
+					$numero_filas = mysqli_num_rows($result);
+
+					if ($numero_filas==null){
+					echo'<p>No hay vuelos disponibles</p>';
+					echo'<a href="index.php"><p>Volver</p></a>';
+					} else{
 						while($row = mysqli_fetch_object($result))
 						{
 							echo'<input type="radio" value="seleccion" name="selectvuelo" id="selectvuelo" class="selectvuelo" value="1"/>';
@@ -87,7 +90,7 @@
 							if($idaovuelta=="soloida"){
 							echo'<li>Desde: <span class="spanlista">' . $row->origen . ' </span></li>';
 							echo'<li>Hacia: <span class="spanlista">' . $row->destino . ' </span></li>';
-								if($categoria=="pri"){
+								if($categoria=="1"){
 									echo'<li>Precio: <span class="spanlista">$' . $row->precio_primera . ' </span></li>';
 								} else {
 									echo'<li>Precio: <span class="spanlista">$' . $row->precio_economy . ' </span></li>';
@@ -106,7 +109,7 @@
 							echo'<li>Desde: <span class="spanlista">' . $row->destino . '</span></li>';
 							echo'<li>Hacia: <span class="spanlista">' . $row->origen . '</span></li>';
 							echo'<li>Fecha: <span class="spanlista">' . $fechavuelta . '</span></li>';
-								if($categoria=="pri"){
+								if($categoria=="1"){
 									echo'<li>Precio final: <span class="spanlista">$' . $row->precio_primera . '</span></li>';
 								} else {
 									echo'<li>Precio final: <span class="spanlista">$' . $row->precio_economy . '</span></li>';
@@ -115,10 +118,15 @@
 							echo'</ul>'; 
 							}
 						echo'<br/>';
+						echo'<input type="hidden" id="id_vuelo" name="id_vuelo" value="' . $row->id_vuelo . '" />';
+						echo'<input type="hidden" id="id_categorias" name="id_categorias" value="' . $categoria . '" />';
+						echo'<input type="hidden" id="idaovuelta" name="idaovuelta" value="' . $idaovuelta . '" />';
+						echo'<input type="hidden" id="fechaida" name="fechaida" value="' . $fechaida . '" />';
+						echo'<input type="hidden" id="fechavuelta" name="fechavuelta" value="' . $fechavuelta . '" />';
+						echo'<input type="hidden" id="id_avion" name="id_avion" value="' . $row->id_avion . '" />';
 						echo'<input type="submit" value="Continuar" id="botoncont" />';
 						}
-					
-				//}
+					}
 				?>
 			</form>
 		</div>

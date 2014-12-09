@@ -1,3 +1,6 @@
+<?php
+	require_once("/conexion.php");
+?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -12,7 +15,7 @@
 <script type="text/javascript" src="js/jquery-1.11.1.min.js"></script>
 <script type="text/javascript" src="js/jqueryui.js"></script>
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.1/themes/base/jquery-ui.css" />
-
+<script type="text/javascript" src="js/validaciones.js"></script>
 <!-- Supersized slider background -->
 <link rel="stylesheet" href="css/supersized.css" type="text/css" media="screen" />
 <script type="text/javascript" src="js/supersized.3.2.7.min.js"></script>
@@ -55,8 +58,8 @@ $( ".datepicker" ).datepicker();
 				<ul id="menu">
 					<li><a href="index.php">Home</a></li>
 					<li><a href="destinos.html">Destinos</a></li>
-					<li><a href="pagos.php">Pagos</a></li>
-					<li id="menu_active"><a href="checkinn.php">Check inn</a></li>
+					<li id="menu_active"><a href="pagos.php">Pagos</a></li>
+					<li><a href="checkinn.php">Check inn</a></li>
 					<li><a href="contacto.html">Contacto</a></li>
 				</ul>
 			</div>
@@ -65,7 +68,16 @@ $( ".datepicker" ).datepicker();
 
 	<div class="wrapper">
 		<div id="formulario">
-			
+			<div id="formpago">
+				<p>Pagar</p>
+				<br/>
+					<form action="pagar_reserva.php" method="post" onSubmit="return validar_formpagos()">
+						<label>Ingrese código de reserva</label>
+						<input type="text" id="codigo" name="codigo" class="codigo" />
+						<br/><br/>
+						<input type="submit" value="Verificar" id="botonverif" />
+					</form>
+			</div>
 		</div>
 	</div>
 </body>

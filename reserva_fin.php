@@ -1,3 +1,6 @@
+<?php
+	require_once("/conexion.php");
+?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -12,7 +15,7 @@
 <script type="text/javascript" src="js/jquery-1.11.1.min.js"></script>
 <script type="text/javascript" src="js/jqueryui.js"></script>
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.1/themes/base/jquery-ui.css" />
-
+<script type="text/javascript" src="js/validaciones.js"></script>
 <!-- Supersized slider background -->
 <link rel="stylesheet" href="css/supersized.css" type="text/css" media="screen" />
 <script type="text/javascript" src="js/supersized.3.2.7.min.js"></script>
@@ -55,8 +58,8 @@ $( ".datepicker" ).datepicker();
 				<ul id="menu">
 					<li><a href="index.php">Home</a></li>
 					<li><a href="destinos.html">Destinos</a></li>
-					<li><a href="pagos.php">Pagos</a></li>
-					<li id="menu_active"><a href="checkinn.php">Check inn</a></li>
+					<li id="menu_active"><a href="pagos.php">Pagos</a></li>
+					<li><a href="checkinn.php">Check inn</a></li>
 					<li><a href="contacto.html">Contacto</a></li>
 				</ul>
 			</div>
@@ -65,7 +68,47 @@ $( ".datepicker" ).datepicker();
 
 	<div class="wrapper">
 		<div id="formulario">
-			
+			<div id="formpago">
+				<?php
+					$nombre = $_POST['nombre'];
+					$dni = $_POST['dni'];
+					$fecha = $_POST['fecha'];
+					$correo = $_POST['correo'];
+					$id_vuelo = $_POST['id_vuelo'];
+					$id_categorias = $_POST['id_categorias'];
+					$idaovuelta = $_POST['idaovuelta'];
+					$fechaida = $_POST['fechaida'];
+					$fechavuelta = $_POST['fechavuelta'];
+
+					$query="Insert Into pasajeros (nombre, dni, fecha, correo) Values ('$nombre','$dni','$fecha','$correo')";
+					mysqli_query($link, $query);
+
+					$query="SELECT p.id
+							FROM pasajeros as p
+							WHERE dni='$dni'";
+
+					$result=mysqli_query($link, $query);
+					$row = mysqli_fetch_object($result);
+					$id_pasajero=$row->id;
+
+					if($idaovuelta=="soloida"){
+					$query="Insert Into reservas (id_pasajero, id_vuelo, id_categorias, fecha_vuelo) Values ('$id_pasajero','$id_vuelo','$id_categorias', '$fechaida')";
+					} else {
+					$query="Insert Into reservas (id_pasajero, id_vuelo, id_categorias, fecha_vuelo) Values ('$id_pasajero','$id_vuelo','$id_categorias', '$fechaida'), ('$id_pasajero','$id_vuelo','$id_categorias', '$fechavuelta')";
+					}
+					mysqli_query($link, $query);
+					mysqli_close($link);
+// ver tema del numero de reserva
+					$query="SELECT MAX(id) 
+							FROM reservas";
+					$result=mysqli_query($link, $query);
+					$row = mysqli_fetch_object($result);
+					$id_de_reserva = $row->id;
+
+					echo'<p>Reserva realizada con exito</p>';
+					echo'<p>Su numero de reserva es' . $id_de_reserva . '</p>';
+				?>
+			</div>
 		</div>
 	</div>
 </body>
