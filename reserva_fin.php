@@ -53,7 +53,7 @@ $( ".datepicker" ).datepicker();
 <body>
 	<div id="header">
 		<div class="wrapper">
-			<a href="index.html"><div id="logo"></div></a>
+			<a href="index.php"><div id="logo"></div></a>
 			<div class="navbar">
 				<ul id="menu">
 					<li><a href="index.php">Home</a></li>
@@ -79,7 +79,9 @@ $( ".datepicker" ).datepicker();
 					$idaovuelta = $_POST['idaovuelta'];
 					$fechaida = $_POST['fechaida'];
 					$fechavuelta = $_POST['fechavuelta'];
-
+					$fechaida = date("Y-m-d");
+					$fechavuelta = date("Y-m-d");
+					
 					$query="Insert Into pasajeros (nombre, dni, fecha, correo) Values ('$nombre','$dni','$fecha','$correo')";
 					mysqli_query($link, $query);
 
@@ -97,16 +99,16 @@ $( ".datepicker" ).datepicker();
 					$query="Insert Into reservas (id_pasajero, id_vuelo, id_categorias, fecha_vuelo) Values ('$id_pasajero','$id_vuelo','$id_categorias', '$fechaida'), ('$id_pasajero','$id_vuelo','$id_categorias', '$fechavuelta')";
 					}
 					mysqli_query($link, $query);
-					mysqli_close($link);
+
 // ver tema del numero de reserva
-					$query="SELECT MAX(id) 
+					$query="SELECT MAX(id) as id_reserva
 							FROM reservas";
 					$result=mysqli_query($link, $query);
 					$row = mysqli_fetch_object($result);
-					$id_de_reserva = $row->id;
+					$id_de_reserva = $row->id_reserva;
 
 					echo'<p>Reserva realizada con exito</p>';
-					echo'<p>Su numero de reserva es' . $id_de_reserva . '</p>';
+					echo'<p>Su numero de reserva es: ' . $id_de_reserva . '</p>';
 				?>
 			</div>
 		</div>

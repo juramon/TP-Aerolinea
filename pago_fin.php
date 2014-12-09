@@ -70,6 +70,7 @@ $( ".datepicker" ).datepicker();
 		<div id="formulario">
 			<div id="formpago">
 				<?php
+					$codigo = $_POST['codigo'];
 					$id = $_POST['id'];
 					$id_pasajero = $_POST['id_pasajero'];
 					$id_vuelo = $_POST['id_vuelo'];
@@ -80,7 +81,7 @@ $( ".datepicker" ).datepicker();
 					mysqli_close($link);
 
 					echo'<p>Pago registrado</p>';
-					
+					echo'<p>Descargue su pasaje <a href="pasaje?' . $codigo . '.php" target="_blank">aqui</a></p>';
 				?>
 			</div>
 		</div>

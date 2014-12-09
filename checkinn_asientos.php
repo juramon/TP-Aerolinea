@@ -1,5 +1,10 @@
 <?php
 	require_once("/conexion.php");
+
+function dameFecha($fecha,$dia)
+{   list($year,$mon,$day) = explode('-',$fecha);
+    return date('Y-m-d',mktime(0,0,0,$mon,$day+$dia,$year));        
+}
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -58,8 +63,8 @@ $( ".datepicker" ).datepicker();
 				<ul id="menu">
 					<li><a href="index.php">Home</a></li>
 					<li><a href="destinos.html">Destinos</a></li>
-					<li id="menu_active"><a href="pagos.php">Pagos</a></li>
-					<li><a href="checkinn.php">Check inn</a></li>
+					<li><a href="pagos.php">Pagos</a></li>
+					<li id="menu_active"><a href="checkinn.php">Check inn</a></li>
 					<li><a href="contacto.html">Contacto</a></li>
 				</ul>
 			</div>
@@ -69,63 +74,59 @@ $( ".datepicker" ).datepicker();
 	<div class="wrapper">
 		<div id="formulariopagos">
 			<div id="formpagarreserva">
-				<form action="pago_fin.php" method="post" onSubmit="return validar_pagarreserva()">
+				<form action="guardar_asiento.php" method="post" onSubmit="return validar_pagarreserva()">
 					<?php
 					$codigo = $_POST['codigo'];
-					$query="SELECT r.id as id, r.id_pasajero as id_pasajero, r.id_vuelo as id_vuelo, r.id_categorias as id_categorias, r.fecha as fecha, p.nombre as nombre_pas, a.nombre as aer_origen, aer.nombre as aer_destino, r.id_categorias as categ, v.precio_economy as economy, v.precio_primera as primera
-							FROM reservas as r join pasajeros as p on r.id_pasajero=p.id join vuelos as v on r.id_vuelo=v.id join aeropuertos as a on a.id=v.id_origen join aeropuertos as aer on aer.id=v.id_destino join categorias as c on c.id=r.id_categorias
-							WHERE r.id='$codigo'";
+					$fechaactual=strftime( "%Y-%m-%d", time() );
+					$query="SELECT fecha as fechavuelo, id_vuelo as vuelo, id_categorias as categoria, id_reserva
+							FROM pasajes
+							WHERE id_reserva='$codigo'";
+
 					$result=mysqli_query($link, $query);
-					$numero_filas = mysqli_num_rows($result);
-					if ($numero_filas==null){
-					echo'<p>La reserva no existe</p>';
-					echo'<a href="pagos.php"><p>Volver</p></a>';
-					echo exit;
-					} else{
 					$row = mysqli_fetch_object($result);
-							echo '<input type="hidden" name="id" value="' . $row->id . '" />';
-							echo '<input type="hidden" name="id_pasajero" value="' . $row->id_pasajero . '" />';
-							echo '<input type="hidden" name="id_vuelo" value="' . $row->id_vuelo . '" />';
-							echo '<input type="hidden" name="id_categorias" value="' . $row->id_categorias . '" />';
-							echo '<input type="hidden" name="fecha" value="' . $row->fecha . '" />';
-							echo '<input type="hidden" name="codigo" value="' . $codigo . '" />';
+					$numero_filas = mysqli_num_rows($result);
+
+					$fechacheck2=dameFecha($row->fechavuelo,-2);
+					$fechacheck1=dameFecha($row->fechavuelo,-1);
+					$fechacheck0=dameFecha($row->fechavuelo,0);
+
+					if ($numero_filas==null){
+					echo'<p>Usted todavia no ha pagado su reserva, por favor realice su pago <a href="pagos.php">aqui</a></p>';
+					} else if($fechaactual==$fechacheck2||$fechaactual==$fechacheck1||$fechaactual==$fechacheck0){
+						echo'<p>Seleccione su asiento</p>';
+						echo'<table>';
+						echo'<tr>';
+						  echo'<td>1<input type="radio" value="1" name="asiento"/></td>';
+						  echo'<td>2<input type="radio" value="2" name="asiento"/></td>';
+						  echo'<td>3<input type="radio" value="3" name="asiento"/></td>';
+						echo'</tr>';
+						echo'<tr>';
+						  echo'<td>4<input type="radio" value="4" id="4" name="asiento"/></td>';
+						  echo'<td>5<input type="radio" value="5" id="5" name="asiento"/></td>';
+						  echo'<td>6<input type="radio" value="6" id="6" name="asiento"/></td>';
+						echo'</tr>';
+						echo'<tr>';
+						  echo'<td>7<input type="radio" value="7" id="7" name="asiento"/></td>';
+						  echo'<td>8<input type="radio" value="8" id="8" name="asiento"/></td>';
+						  echo'<td>9<input type="radio" value="9" id="9" name="asiento"/></td>';
+						echo'</tr>';
+						echo'<tr>';
+						  echo'<td>10<input type="radio" value="10" id="10" name="asiento"/></td>';
+						  echo'<td>11<input type="radio" value="11" id="11" name="asiento"/></td>';
+						  echo'<td>12<input type="radio" value="12" id="12" name="asiento"/></td>';
+						echo'</tr>';
+						echo'</table>';
 					}
+						else {
+							echo'<p>El checkinn solo puede realizarse 48 antes del despegue</p>';
+							exit;
+						}
+						echo'<input type="hidden" id="codigo" name="codigo" value="' . $codigo . '" />';
+						echo'<input type="hidden" id="fechavuelo" name="fechavuelo" value="' . $row->fechavuelo . '" />';
+						echo'<input type="hidden" id="vuelo" name="vuelo" value="' . $row->vuelo . '" />';
+						echo'<input type="hidden" id="categoria" name="categoria" value="' . $row->categoria . '" />';
 					?>
-					<p>Pago pendiente</p>
-					<br/>
-					<?php
-					echo'<ul>'; 
-					echo'<li>Nombre: <span class="spanlista">' . $row->nombre_pas . ' </span></li>';
-					echo'<li>Origen: <span class="spanlista">' . $row->aer_origen . ' </span></li>';
-					echo'<li>Destino: <span class="spanlista">' . $row->aer_destino . ' </span></li>';
-						if($row->categ=1){
-							echo'<li>Precio: <span class="spanlista">' . $row->economy . ' </span></li>';
-						} else {
-								echo'<li>Precio: <span class="spanlista">' . $row->primera . ' </span></li>';
-							}
-					echo'</ul>';
-					?>
-					<br/>
-					<p>Ingrese los datos de su tarjeta de credito</p>
-					<br/>
-					<label>Nombre y Apellido</label>
-					<input type="text" id="nombre" name="nombre" />
-					<br/><br/>
-					<label>Tipo de Tarjeta</label>
-					<select id="tipotarjeta" name="tipotarjeta">
-						<option value="">Seleccione...</option>
-						<option value="Visa">Visa</option>
-						<option value="Amex">Amex</option>
-						<option value="MasterCard">Mastercard</option>
-					</select>
-					<br/><br/>
-					<label>Número de tarjeta</label>
-					<input type="text" id="numtarjeta" name="numtarjeta" />
-					<br/><br/>
-					<label>Código de seguridad</label>
-					<input type="text" id="codseguridad" name="codseguridad" />
-					<br/><br/>
-					<input type="submit" value="Pagar" id="botonverif" />
+					<input type="submit" value="reservar" id="botonverif" />
 
 				</form>
 			</div>

@@ -51,7 +51,7 @@ dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sab
 };
 $.datepicker.setDefaults($.datepicker.regional['es']);
 $(function() {
-$( ".datepicker" ).datepicker({ dateFormat: "DD, d MM, yy" });
+$( ".datepicker" ).datepicker({ dateFormat: "DD, d MM, yy", minDate: 0 });
 });
 </script>
 <title>Aerolinea Universitaria</title>	

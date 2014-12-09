@@ -44,7 +44,7 @@
 <!-- END Supersized -->
 <script>
 $(function() {
-$( ".datepicker" ).datepicker();
+$( ".datepicker" ).datepicker({ dateFormat: "yy-mm-dd"});;
 });
 </script>
 <title>Aerolinea Universitaria</title>	
@@ -76,7 +76,13 @@ $( ".datepicker" ).datepicker();
 						$fechaida = $_POST['fechaida'];
 						$fechavuelta = $_POST['fechavuelta'];
 						$id_avion = $_POST['id_avion'];
-						
+
+						echo '<input type="hidden" id="id_vuelo" name="id_vuelo" value="' . $id_vuelo . '" />';
+						echo '<input type="hidden" id="id_categorias" name="id_categorias" value="' . $id_categorias . '" />';
+						echo '<input type="hidden" id="idaovuelta" name="idaovuelta" value="' . $idaovuelta . '" />';
+						echo '<input type="hidden" id="fechaida" name="fechaida" value="' . $fechaida . '" />';
+						echo '<input type="hidden" id="fechavuelta" name="fechavuelta" value="' . $fechavuelta . '" />';
+
 						//cantidad de reservas para el vuelo seleccionado
 						$query="SELECT COUNT(1) AS cant 
 						FROM reservas
@@ -97,6 +103,7 @@ $( ".datepicker" ).datepicker();
 						//ver si se puede acomodar de otra forma, es un asco esto
 						if($id_categorias=='1' && $cant<$asientos_economy){
 							echo '<p>Hay espacio en su vuelo, ingrese sus datos</p>';
+							echo '<br/><br/>';
 							echo '<label>Nombre y apellido:</label>';
 							echo '<input type="text" name="nombre" id="nombre"/>';
 							echo '<br/><br/>';
@@ -108,11 +115,6 @@ $( ".datepicker" ).datepicker();
 							echo '<br/><br/>';
 							echo '<label>Correo electronico:</label>';
 							echo '<input type="text" name="correo" id="correo"/>';
-							echo '<input type="hidden" id="id_vuelo" name="id_vuelo" value="<?= $id_vuelo ?>" />';
-							echo '<input type="hidden" id="id_categorias" name="id_categorias" value="<?= $id_categorias ?>" />';
-							echo '<input type="hidden" id="idaovuelta" name="idaovuelta" value="<?= $idaovuelta ?>" />';
-							echo '<input type="hidden" id="fechaida" name="fechaida" value="<?= $fechaida ?>" />';
-							echo '<input type="hidden" id="fechavuelta" name="fechavuelta" value="<?= $fechavuelta ?>" />';
 							echo '<input type="submit" value="Reservar" id="botonreserva" />';
 							return true;
 							}else if($id_categorias=='2' && $cant<$asientos_primera){
@@ -128,11 +130,6 @@ $( ".datepicker" ).datepicker();
 							echo '<br/><br/>';
 							echo '<label>Correo electronico:</label>';
 							echo '<input type="text" name="correo" id="correo"/>';
-							echo '<input type="hidden" id="id_vuelo" name="id_vuelo" value="<?= $id_vuelo ?>" />';
-							echo '<input type="hidden" id="id_categorias" name="id_categorias" value="<?= $id_categorias ?>" />';
-							echo '<input type="hidden" id="idaovuelta" name="idaovuelta" value="<?= $idaovuelta ?>" />';
-							echo '<input type="hidden" id="fechaida" name="fechaida" value="<?= $fechaida ?>" />';
-							echo '<input type="hidden" id="fechavuelta" name="fechavuelta" value="<?= $fechavuelta ?>" />';
 							echo '<input type="submit" value="Reservar" id="botonreserva" />';
 							return true;
 							}else{

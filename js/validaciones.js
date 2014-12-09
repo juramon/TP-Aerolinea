@@ -82,6 +82,13 @@ function validar_formpagos(){
     }
 }
 
+function validar_formcheckinn(){
+  if(document.getElementById('codigo').value==0){
+    alert("Debe ingresar un codigo de reserva");
+    return false;
+    }
+}
+
 function validar_pagarreserva(){
   if(document.getElementById('nombre').value==0){
     error+="Ingrese su nombre completo\n";
